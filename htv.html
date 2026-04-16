@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>How to Vote</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f4f4f4;
+            text-align: center;
+        }
+         .navbar{
+         display:flex;
+         justify-content:space-between;
+         position:sticky;
+         top:0;
+         backdrop-filter: blur(45px);
+         padding:20px 60px;
+         background:#f8f8f8;
+         color:black;
+        }
+        .logo{
+         font-size:24px;
+         font-weight:bold;
+        }
+        .menu a{
+            margin-left:25px;
+            text-decoration:none;
+            color:black;
+            font-weight:600;
+        }
+        .active {
+            color: #0f7c8a;
+        }
+        .login-btn{
+            background:#ff9800;
+            padding:8px 16px;
+            border-radius:6px;
+            color:white !important;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+        }
+
+        .slider {
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .description {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        button {
+            margin: 20px 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #0f7c8a;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #095c65;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+    <div class="logo">SecureVote</div>
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'htv' %}">How to Vote</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'signin' %}" class="login-btn">Login</a>
+    </div>
+</div>
+
+<h1>How to Vote</h1>
+
+<div class="container">
+
+    <div class="slider">
+
+        <!-- Step 1 -->
+        <div class="slide active">
+            <img src="{% static 'election/images/login.png' %}">
+            <div class="description">
+                Step 1: Login using your registered email and password.
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="slide">
+            <img src="{% static 'election/images/verification.png' %}">
+            <div class="description">
+                Step 2: Complete voter verification using your details.
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="slide">
+            <img src="{% static 'election/images/vote.png' %}">
+            <div class="description">
+                Step 3: Select your preferred candidate and submit your vote.
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="slide">
+            <img src="{% static 'election/images/vote_success.png' %}">
+            <div class="description">
+                Step 4: Your vote is successfully recorded. Thank you!
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <button onclick="prevSlide()">⬅ Previous</button>
+    <button onclick="nextSlide()">Next ➡</button>
+
+</div>
+
+<script>
+let index = 0;
+const slides = document.querySelectorAll(".slide");
+
+function showSlide(i) {
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[i].classList.add("active");
+}
+
+function nextSlide() {
+    index++;
+    if (index >= slides.length) index = 0;
+    showSlide(index);
+}
+
+function prevSlide() {
+    index--;
+    if (index < 0) index = slides.length - 1;
+    showSlide(index);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Results</title>
+
+    <!-- ✅ Chart.js (VERY IMPORTANT) -->
+    <script src="{% static 'election/chart.js' %}"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background:radial-gradient(circle at center,rgba(9,27,74,0.9),rgba(8,8,12,1)70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color:black;
+           
+        }
+
+        .container {
+            background: rgba(34,39,56,0.88);
+            padding: 30px;
+            border-radius: 20px;
+            width:90%;
+            max-width: 900px;
+            color:rgb(190, 186, 186);
+            margin: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th {
+            background: #235f25;
+            color: rgb(198, 192, 192);
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chart-box {
+            width: 100% !important;
+            height: 400px !important;
+        }
+
+        .winner {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+            background: #b0b9b0;
+            border-radius: 10px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Election Result</h1>
+
+    <!-- ✅ Table -->
+    <table>
+        <tr>
+            <th>Candidate</th>
+            <th>Party</th>
+            <th>Votes</th>
+        </tr>
+        {% for candidate in candidates %}
+        <tr>
+            <td>{{ candidate.name }}</td>
+            <td>{{ candidate.party }}</td>
+            <td>{{ candidate.vote_counts }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- ✅ Graph -->
+    <h2>Vote Count Graph</h2>
+
+    <div class="chart-box" style="width:90%; max-width:900px; margin:auto;">
+        <canvas id="voteChart"></canvas>
+    </div>
+
+    <!-- ✅ Winner -->
+    <div class="winner">
+        Winner: {{ winner.name }} ({{ winner.party }}) with {{ winner.vote_counts }} votes
+    </div>
+</div>
+
+<!-- ✅ SAFE Django JSON -->
+{{ candidate_names|json_script:"labels" }}
+{{ vote_counts|json_script:"votes" }}
+
+<!-- ✅ Chart Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    
+    const labels = JSON.parse
+    (document.getElementById("labels").textContent);
+       
+    const votes =  JSON.parse
+    (document.getElementById("votes").textContent);
+       
+    const canvas = document.getElementById("voteChart");
+    const ctx=canvas.getContext("2d");
+
+
+    const totalVotes=votes.reduce((sum,vote)=>sum+vote,0);
+
+    const votePersentages=votes.map(vote=>totalVotes>0?Number(((vote/totalVotes)*100).toFixed(1)):0);
+          
+    console.log("labels:",labels);
+    console.log("votes:",votes);
+
+    if(!canvas){
+        console.error("Canvas not found!");
+        return;
+    }
+   
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Votes",
+                data: votePersentages,
+                backgroundColor: [
+                    "#ff6384",
+                    "#36a2eb",
+                    "#ffce56",
+                    "#4bc0c0",
+                    "#9966ff",
+                    "#ff9f40"
+                ],
+                borderColor:"#ffffff",
+                borderWidth: 1,
+                borderRadius:8,
+                barThickness:50,           
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins:{
+                legend:{
+                    labels:{
+                        color:"white",
+                        font:{
+                            size:16
+                        }
+                    }
+                
+            },
+            tooltip:{
+                callbacks:{
+                    label:function(context){
+                        return context.raw+"%";
+                    }
+                }
+
+            }
+        },
+            scales:{
+               
+                x:{
+                    ticks:{
+                        color:"rgb(198, 192, 192)",
+                        font:{
+                            size:14,
+                            weight:"bold"
+                        }
+                    },
+                    grid:{
+                        display:false
+                    }
+                },
+                     y:{
+                    beginAtZero:true,
+                    min:0,
+                    max:100,
+                    ticks:{
+                        stepSize:10,
+                        color:"rgb(198, 192, 192)",
+                        callback:function(value){
+                            return value+"%";
+                        },
+                        font:{
+                            size:14
+                        }
+                    
+                },
+                    grid:{
+                        display:false,
+                        color:"rgba(255,255,255,0.1)"
+                    }
+                }
+            }
+           
+         }
+            
+        
+    });
+
+});
+</script>
+
+</body>
+</html>

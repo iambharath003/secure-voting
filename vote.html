@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cast Your Vote</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at center,rgba(9,27,74,0.9),rgba(8,8,12,1)70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* MAIN CONTAINER */
+        .vote-container {
+            width: 65%;
+            max-width: 550px;
+            height: 80vh;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            color: white;
+            overflow: hidden;
+        }
+        
+        /* TITLE */
+        .vote-container h1 {
+            margin: 0;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .vote-container p {
+            text-align: center;
+            margin: 8px 0 15px;
+            font-size: 18px;
+        }
+
+        /* FORM */
+        form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* SCROLL AREA */
+        .candidate-list {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding-right: 5px;
+        }
+
+        /* SCROLLBAR */
+        .candidate-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .candidate-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.4);
+            border-radius: 10px;
+        }
+
+        /* CARD */
+        .candidate-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.12);
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .candidate-card:hover {
+            background: rgba(255,255,255,0.18);
+            transform: scale(1.02);
+        }
+
+        /* RADIO */
+        .candidate-card input[type="radio"] {
+            transform: scale(1.3);
+            accent-color: #ff4d6d;
+            margin-right: 10px;
+        }
+
+        /* INFO */
+        .candidate-info {
+            flex: 1;
+        }
+
+        .candidate-info h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .candidate-info p {
+            margin: 3px 0 0;
+            font-size: 14px;
+        }
+
+        /* SYMBOL */
+        .candidate-symbol {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            background: white;
+            border-radius: 12px;
+            padding: 5px;
+        }
+
+        /* BUTTON */
+        .vote-btn {
+            background: linear-gradient(to right,#ff512f,#dd2476);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 114, 255, 0.4);
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .vote-container {
+                width: 90%;
+                height: 90vh;
+            }
+
+            .candidate-symbol {
+                width: 55px;
+                height: 55px;
+            }
+
+            .candidate-info h2 {
+                font-size: 16px;
+            }
+
+            .candidate-info p {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="vote-container">
+    <h1>Cast Your Vote</h1>
+    <p>Select Your Candidate</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="candidate-list">
+            {% for candidate in candidates %}
+            <label class="candidate-card">
+
+                <input type="radio" name="candidate" value="{{ candidate.id }}" required>
+
+                <div class="candidate-info">
+                    <h2>{{ candidate.name }}</h2>
+                    <p>{{ candidate.party }}</p>
+                </div>
+
+                {% if candidate.symbol %}
+                    <img src="{{ candidate.symbol.url }}" class="candidate-symbol">
+                {% else %}
+                    <img src="{% static 'images/default.png' %}" class="candidate-symbol">
+                {% endif %}
+
+            </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="vote-btn">Submit Vote</button>
+    </form>
+</div>
+
+</body>
+</html>

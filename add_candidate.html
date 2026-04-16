@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Candidate</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:rgba(34,39,56,0.88);
+padding:30px;
+backdrop-filter: blur(15px);
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+max-width:750px;
+margin-top: 20px;
+}
+
+h2{
+color:rgb(227, 224, 224);
+text-align:center;
+margin-bottom:20px;
+}
+
+form{
+margin-bottom:30px;
+border:none;
+
+}
+
+input{
+width:96.5%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+background: rgba(79,84,102,0.45);
+}
+
+input[type="file"]{
+    width:96%;
+    padding:12px;
+    border:2px solid rgba(255,255,255,0.2);
+    border-radius :12px;
+    background:rgba(79,84,102,0.35);
+    color:rgb(124, 102, 102);
+    font-size:15px;
+    cursor:pointer;
+}
+
+button{
+background:#10b981;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0c5c41;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+table-layout: fixed;
+}
+
+th{
+background:#0f3ea3;
+color:rgb(203, 197, 197);
+padding:10px;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:center;
+color: rgb(205, 198, 198);
+}
+
+.delete{
+background:#b72b2b;
+color:rgb(211, 206, 206);
+padding:5px 10px;
+text-decoration:none;
+border-radius:5px;
+}
+
+.delete:hover{
+background:rgb(228, 16, 16);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Add Candidate</h2>
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<input type="text" name="name" placeholder="Candidate Name" required>
+
+<input type="text" name="party" placeholder="Party Name" required>
+
+<input type="file" name="symbol" accept="images/*" required>
+
+<button type="submit">Add Candidate</button>
+
+</form>
+
+<h2>Candidate List</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Party</th>
+<th>symbol</th>
+<th>Action</th>
+</tr>
+</thead>
+</tbody>
+{% for candidate in candidates %}
+
+<tr>
+
+<td>{{ candidate.name }}</td>
+<td>{{ candidate.party }}</td>
+
+<td>
+    {% if candidate.symbol %}
+    <img src="{{ candidate.symbol.url }}" width="50" height="50">
+    {% else %}
+       No symbol
+    {% endif %}
+</td>
+<td>
+<a class="delete" href="{% url 'delete_candidate' candidate.id %}">
+Delete
+</a>
+</td>
+
+</tr>
+
+{% empty %}
+<tr>
+    <td colspan="3">No candidate added</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

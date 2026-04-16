@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About - SecureVote</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+        }
+
+        /* NAVBAR */
+       .navbar{
+         display:flex;
+         justify-content:space-between;
+         position:sticky;
+         top:0;
+         backdrop-filter: blur(45px);
+         padding:20px 60px;
+         background:#f8f8f8;
+         color:black;
+        }
+        .logo{
+         font-size:24px;
+         font-weight:bold;
+        }
+        .menu a{
+            margin-left:25px;
+            text-decoration:none;
+            color:black;
+            font-weight:600;
+        }
+
+        .login-btn{
+            background:#ff9800;
+            padding:8px 16px;
+            border-radius:6px;
+            color:white !important;
+        }
+        /* HERO */
+        .hero {
+            background: linear-gradient(to right, #0f9b8e, #0a6c6c);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        /* SECTION */
+        .about-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 50px 80px;
+            justify-content: space-between;
+        }
+
+        .about-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .about-img img {
+            width: 520px;
+            border-radius: 12px;
+        }
+
+        .about-text {
+            max-width: 500px;
+        }
+
+        .about-text h2 {
+            color: #0a7c7c;
+            margin-bottom: 10px;
+        }
+
+        .about-text p {
+            text-align: justify;
+            line-height: 1.8;
+            text-indent: 30px;
+            color: #444;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .about-row,
+            .about-row.reverse {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-text p {
+                text-align: left;
+                text-indent: 0;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+    <div class="logo">SecureVote</div>
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'htv' %}">How to Vote</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'signin' %}" class="login-btn">Login</a>
+    </div>
+</div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>About SecureVote</h1>
+        <p>Secure online voting system for safe election</p>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="about-row">
+        <div class="about-img">
+            <img src="{% static 'election/images/develop.jpeg' %}">
+        </div>
+        <div class="about-text">
+            <h2>How SecureVote is Developed</h2>
+            <p>
+                SecureVote is developed using Django (Python) as the backend framework, ensuring strong performance and secure data handling. The frontend is built using HTML, CSS, and JavaScript to provide a clean and user-friendly interface. The system follows a client-server architecture where all voting logic is processed securely on the server side. It is designed to be scalable, allowing it to handle both small and large elections efficiently. The integration of modern web technologies ensures smooth navigation, fast response time, and reliable functionality.
+            </p>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="about-row reverse">
+        <div class="about-img">
+            <img src="{% static 'election/images/security.jpeg' %}">
+        </div>
+        <div class="about-text">
+            <h2>Data Storage & Security</h2>
+            <p>
+                SecureVote prioritizes data security by storing all user and voting information in a secure database such as SQLite or MySQL. Passwords are encrypted using Django’s built-in authentication system, ensuring protection against unauthorized access. Each vote is uniquely associated with a voter ID, maintaining data accuracy and preventing duplication. The system also implements session management and validation checks to enhance security and protect sensitive data from breaches.
+            </p>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="about-row">
+        <div class="about-img">
+            <img src="{% static 'election/images/managed.jpeg' %}">
+        </div>
+        <div class="about-text">
+            <h2>How Voting is Managed</h2>
+            <p>
+                The voting process in SecureVote is designed to be simple, secure, and efficient. Each registered user is allowed to cast their vote only once during an election. Once a vote is submitted, the system immediately updates the voter’s status to prevent multiple voting attempts. All voting activities are processed on the server side to ensure accuracy and fairness, making the election process transparent and reliable.
+            </p>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="about-row reverse">
+        <div class="about-img">
+            <img src="{% static 'election/images/votes.jpeg' %}">
+        </div>
+        <div class="about-text">
+            <h2>Preventing Multiple Votes</h2>
+            <p>
+                SecureVote implements strong mechanisms to prevent multiple voting and ensure fairness. Once a user casts their vote, a status flag is stored in the database, marking that the user has already voted. If another attempt is made, the system blocks it immediately. Session tracking and authentication checks further enhance security, ensuring a strict one-user-one-vote policy and maintaining the integrity of the election process.
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

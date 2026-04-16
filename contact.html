@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f4f4f4;
+        }
+
+      .navbar{
+         display:flex;
+         justify-content:space-between;
+         padding:20px 60px;
+         position:sticky;
+         top:0;
+         backdrop-filter: blur(45px);
+         background:#f8f8f8;
+         color:black;
+        }
+        .logo{
+         font-size:24px;
+         font-weight:bold;
+        }
+        .menu a{
+            margin-left:25px;
+            text-decoration:none;
+            color:black;
+            font-weight:600;
+        }
+        .active {
+            color: #0f7c8a;
+        }
+        .login-btn{
+            background:#ff9800;
+            padding:8px 16px;
+            border-radius:6px;
+            color:white !important;
+        }
+        .active {
+            color: #0f7c8a;
+        }
+
+        .hero {
+            background: linear-gradient(to right, #0f7c8a, #0a4f5a);
+            color: white;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .container {
+            padding: 40px;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+          
+        }
+
+        .side-image-left img{
+            width: 520px;
+            height:auto;
+            border-radius: 10px;
+        }
+        
+        .side-image-right img{
+            width: 520px;
+            height:auto;
+            border-radius: 10px;
+        }
+
+        .card {
+            color:white;
+            background: linear-gradient(to right, #0f7c8a, #0a4f5a);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        input, textarea {
+            width: 96%;
+            padding: 10px;
+            margin: 10px 0;
+            background: linear-gradient(to right, #0f7c8a, #0a4f5a);
+        }
+
+        @media (max-width:768px){
+            .cointainer{
+                flex-direction:column;
+            }
+        }
+
+        button {
+            background: #ff9800;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">SecureVote</div>
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'htv' %}">How to Vote</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'signin' %}" class="login-btn">Login</a>
+    </div>
+</div>
+
+
+<div class="hero">
+    <h1>Contact Us</h1>
+</div>
+
+<p style="max-width:6000px;margin:20px auto;text-align:center;color: #555;">
+    SecureVote is committed to providing a safe and reliable online
+    voting experiance.
+    if you have any queries,technical issues ,or feedback,please contact us using the form 
+    below
+    your concerns are important to us,and we will get to you promptly
+</p>
+
+
+
+<div class="container">
+
+    <div class="side-image-left">
+        <img src="{% static 'election/images/contact.jpeg' %}">
+    </div>
+    <div class="card">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Name</label>
+            <input type="text" name="name" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <label>Message</label>
+            <textarea name="message" required></textarea>
+
+            <button type="submit">Send</button>
+        </form>
+
+        <p>📧 bharath.533082@gmail.com.com</p>
+        <p>📞 +91 8148725965</p>
+
+        </div>
+
+        <div class="side-image-right">
+        <img src="{% static 'election/images/support.jpeg' %}">
+    </div>
+
+</div>
+
+</body>
+</html>
