@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Already Voted</title>
+    <style>
+        body{
+            background: radial-gradient(circle at center,rgba(9,27,74,0.9),rgba(8,8,12,1)70%);
+            font-family: Arial;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            color:white;
+        }
+        .box{
+            background:rgba(34,39,56,0.88);;
+            color:white;
+            padding:40px;
+            border-radius:15px;
+            backdrop-filter: blur(15px);
+            text-align:center;
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+        }
+        h2{color:red;}
+
+        .login-btn{
+            display:inline-block;
+            margin-top:20px;
+            padding:12px 28px;
+            background: linear-gardient(135deg,#11998e,#38ef7d);
+            color:red;
+            text-decoration: none;
+            border-radius:8px;
+            font-weight:bold;
+            transition:0.3s;
+
+        }
+        .login-btn:hover{
+            transform:translateY(-3px);
+            box-shadow:0 8px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+<form method="POST">
+<div class="box">
+    <h2>You Have Already Voted</h2>
+    <p> 🔒 Your vote has been securely recorded.<br></p>
+    <p>🗳️ You cannot vote again.<br></p>
+    <p> 📊 Results will be available after voting ends.</p>
+    <a href="/signin/" class ='login-btn'>Go to Login</a>
+</div>
+</form>
+</body>
+</html>

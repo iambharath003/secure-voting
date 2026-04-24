@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote Submitted</title>
+    <style>
+        body {
+            margin:0;
+            padding:0;
+            height:100vh;
+            display:flex;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at center,rgba(9,27,74,0.9),rgba(8,8,12,1)70%);
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: rgba(34,39,56,0.88);
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+        }
+
+        h1 {
+            color: #76ff06ba;
+            margin-top: 10px;
+        }
+
+        p {
+            color: #ffffff;
+            margin: 15px 0;
+        }
+
+        .info {
+            background: rgba(34,39,56,0.88);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            color:white;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            border:none;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+<div class="card">
+    
+    <div class="success-icon">✅</div>
+
+    <h1>Vote Submitted Successfully</h1>
+
+    <p>Thank you for participating in the election.</p>
+
+    <div class="info">
+        🔒 Your vote has been securely recorded.<br>
+        🗳️ You cannot vote again.<br>
+        📊 Results will be available after voting ends.
+    </div>
+
+        <a href="/signin/" class ='btn'>Go to Home</a>
+
+</div>
+</form>
+</body>
+</html>

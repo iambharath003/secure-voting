@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureVote</title>
+    <style>
+       body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:linear-gradient(to right, #0f7c8a, #0a4f5a);
+    color:white;
+}
+
+/* NAVBAR */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    padding:20px 60px;
+    background:#f8f8f8;
+    color:black;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.menu a{
+    margin-left:25px;
+    text-decoration:none;
+    color:black;
+    font-weight:600;
+}
+
+.login-btn{
+    background:#ff9800;
+    padding:8px 16px;
+    border-radius:6px;
+    color:white !important;
+}
+
+/* HERO */
+
+.hero{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:80px;
+}
+
+.hero-left h1{
+    font-size:48px;
+}
+
+.hero-left p{
+    margin:20px 0;
+    font-size:18px;
+}
+
+/* BUTTONS */
+
+.btn-primary{
+    background:#ff9800;
+    padding:12px 24px;
+    text-decoration:none;
+    color:white;
+    border-radius:6px;
+    margin-right:10px;
+}
+
+.btn-secondary{
+    background:white;
+    color:black;
+    padding:12px 24px;
+    text-decoration:none;
+    border-radius:6px;
+}
+
+/* FEATURES */
+
+.features{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    background:white;
+    padding: 15px;
+    color:black;
+    padding:20px;
+    margin:80px auto 0;
+}
+
+.feature{
+    margin:0 40px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">SecureVote</div>
+    <div class="menu">
+        <a href="/">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'htv' %}">How to Vote</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'signin' %}" class="login-btn">Login</a>
+    </div>
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero">
+
+    <div class="hero-left">
+        <h1>Secure Online Voting<br>for Indian Elections</h1>
+        <p>Your vote, your voice, from anywhere, anytime.</p>
+
+        <div class="buttons">
+            <a href="{% url 'signin' %}" class="btn-primary">Get Started</a>
+            <a href="#" class="btn-secondary">Learn More</a>
+        </div>
+    </div>
+
+    
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+
+    <div class="feature">
+        ✔ Safe & Secure
+    </div>
+
+    <div class="feature">
+        ✔ Easy to Use
+    </div>
+
+    <div class="feature">
+        ✔ Confidential & Verified
+    </div>
+
+</div>
+
+</body>
+</html>

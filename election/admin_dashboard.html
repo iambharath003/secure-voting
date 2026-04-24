@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family: Arial;
+            background:#f4f6f9;
+        }
+
+        /* Sidebar */
+        .sidebar{
+            width:220px;
+            height:100vh;
+            background:#1f2d3d;
+            position:fixed;
+            color:white;
+            padding-top:20px;
+        }
+
+        .sidebar h2{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .sidebar a{
+            display:block;
+            color:white;
+            padding:15px;
+            text-decoration:none;
+        }
+
+        .sidebar a:hover{
+            background:#3c8dbc;
+        }
+
+        /* Main */
+        .main{
+            margin-left:220px;
+            padding:30px;
+        }
+
+        .header{
+            font-size:28px;
+            margin-bottom:20px;
+        }
+
+        /* Cards */
+        .cards{
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+            margin-bottom:40px;
+        }
+
+        .card{
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            width:220px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+
+        .card h3{color:#777;}
+        .card h2{color:#3c8dbc;}
+
+        /* Table */
+        table{
+            margin-top:15px ;
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th, td{
+            padding:12px;
+            border:1px solid #ddd;
+            text-align:center;
+        }
+
+        th{
+            background:#3c8dbc;
+            color:white;
+        }
+
+        .btn{
+            padding: 8px 14px;
+            border:none;
+            border-radius:6px;
+            font-size:13px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+            margin:2px;
+        }
+
+        .btn-activate{
+            background:linear-gradient(135deg,#28a745,#218838);
+            color:white;
+        }
+        .btn-activate:hover{
+            transform:scale(1.05);
+        }
+
+        .btn-delete{
+            background:linear-gradient(135deg,#dc3545,#c82333);
+            color:white;
+        }
+        .btn-delete:hover{
+            transform:scale(1.05);
+        }
+        tr:nth-child(even){
+            background:#f2f2f2;
+        }
+
+        .remove-btn{
+            color:white;
+            background:#e74c3c;
+            padding:6px 12px;
+            border-radius:6px;
+            text-decoration:none;
+        }
+
+        .remove-btn:hover{
+            background:#c0392b;
+        }
+
+        .add-btn{
+            background:#27ae60;
+            color:white;
+            padding:10px 18px;
+            border-radius:8px;
+            text-decoration:none;
+        }
+
+        .add-btn:hover{
+            background:#1e8449;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="#">Dashboard</a>
+    <a href="/add_candidate/">Add Candidate</a>
+    <a href="/result/">View Results</a>
+    <a href="/">Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+    <div class="header">Admin Dashboard</div>
+
+    <!-- ⭐ USER ANALYSIS -->
+    <h2>User Analysis</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Users</h3>
+            <h2>{{ total_voters }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Added Today</h3>
+            <h2>{{ added_today }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Deleted Users</h3>
+            <h2>{{ deleted_users }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Voted</h3>
+            <h2>{{ voted }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Not Voted</h3>
+            <h2>{{ not_voted }}</h2>
+        </div>
+
+    </div>
+
+    <!-- ⭐ VOTER MANAGEMENT -->
+    <h2>Voter Management</h2>
+    
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom: 15px;">
+    <a href="{% url 'add_voter' %}" class="add-btn">+ Add Voter</a>
+
+
+        <input type="text" id="searchinput" placeholder="search by username..."
+        style="padding:8px 12px;width:350px;height:25px;border-radius:20px;border:1px solid #ccc;">
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Voter ID</th>
+            <th>Secure Key</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for voter in voters %}
+        <tr>
+            <td>{{ voter.username }}</td>
+            <td>{{ voter.voter_id }}</td>
+            <td>{{ voter.secret_key }}</td>
+            <td>
+                {% if voter.has_voted %}
+                    Voted
+                {% else %}
+                    Not Voted
+                {% endif %}
+            </td>
+            <td>
+               <button class="btn btn-activate" onclick="activateVoter('{{ voter.id }}',this)">
+
+                {% if voter.is_active %}
+                  Deactivate
+                {% else %}
+                  Activate
+                {% endif %}
+               </button>
+                <br>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-delete" type="button" onclick="deleteVoter('{{ voter.id }}')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+    const searchInput=document.getElementById("searchinput");
+
+    if(!searchInput){
+        console.log("search input not found");
+        return;
+    }
+
+        searchInput.addEventListener("keyup",function(){
+
+            let filter=searchInput.value.toLowerCase();
+            let rows=document.querySelectorAll(".main table tbody tr");
+
+            rows.forEach(function(row){
+                let username=row.cells[0]?.innerText.toLowerCase();
+                let voter_id=row.cells[1]?.innerText.tolowerCase();
+             
+         
+            if(username.includes(filter)||voter_id.includes(filter)){
+                row.style.display="";
+            }else{
+                row.style.display="none";
+            }
+        });
+
+    });
+});
+
+    function deleteVoter(id){
+        fetch("/delete_voter/"+id+"/",{
+            method:"POST",
+            headers:{
+                "X-CSRFToken":"{{ csrf_token }}"
+            }
+        })
+        .then(response=>{
+            if(response.ok){
+                location.reload();
+            }
+        })
+    }
+    function activateVoter(id,btn){
+        fetch("/active_voter/"+id+"/",{
+            method:"POST",
+            headers:{
+                "X-CSRFToken":"{{ csrf_token }}"
+            }
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            console.log(data);
+
+            if(data.status==true){
+                btn.innerText="Deactivate";
+                btn.style.background="red";
+                btn.style.border.radius="3px";
+            }
+            else{
+                btn.innerText="Activate";
+                btn.style.background="green";
+                btn.style.border.radius="3px";
+            }
+        })
+        .catch(error=>console.error("Error:",error));
+            }
+</script>
+
+</body>
+</html>
